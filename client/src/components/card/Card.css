@@ -1,0 +1,28 @@
+.card{
+    background-color: rgba(213, 236, 231, 0.918);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-wrap: wrap;        
+    border: 1px outset;
+    border-radius: 10px; 
+    width: 350px;  
+  }
+  .footerCard{
+    display: flex;
+    flex-direction: row;   
+    justify-content: space-between;
+    width: 350px;
+    height: 150px;   
+  }
+  .image{
+    display: flex;
+    width: 200px;
+    height: 150px;
+  }
+  .title{
+    text-align: center;
+  }
+  .Link {
+    text-decoration: none;
+  }

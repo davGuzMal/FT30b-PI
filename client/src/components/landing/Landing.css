@@ -1,0 +1,24 @@
+.pokemon-detail{
+    background-image: url("./img/pokemon_landing.jpg"); 
+    background-size: cover;
+    width: 1200px;
+    height: 900px;   
+    /* background-size: cover;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+     */
+    
+    /* align-items: baseline; */
+    
+    
+}
+
+.goHome{
+    margin-left: auto;
+    margin-right: auto;
+    /* margin-top: 900px; */
+    text-align: center;
+}
