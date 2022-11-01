@@ -17,14 +17,16 @@ export function getPokemons(filter, order, typeP, origin) {
         
     };
 }
-export function filterPokemons(filter, order, origin, typeP) {
+export function filterPokemons(filter, order, typeP, origin) {
     return function(dispatch) {
             dispatch({ 
             type: "FILTER_POKEMONS",                
-            filter: filter, 
-            order : order,
-            typeP : typeP,
-            origin : origin
+            payload : {
+                filter: filter, 
+                order : order,
+                typeP : typeP,
+                origin : origin
+            }
         });
     }       
     

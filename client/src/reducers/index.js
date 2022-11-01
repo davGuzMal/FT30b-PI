@@ -12,67 +12,71 @@ function rootReducer (state = initialState, action){
         case "FILTER_POKEMONS":
             let filteredArray=[]
             let sortedArray=[]
-            
-           //state.pokemonsSorted = []
+            let originArray=[]               
 
-            // switch (action.typeP) {
-            //     case "all":
-            //         filteredArray = state.pokemonsLoaded;
-                  
-            //         break;
-            //     case "":
-            //         filteredArray = state.pokemonsLoaded;
-                                        
-            //         break;
-            //     default:
-            //         filteredArray = state.pokemonsLoaded.filter(p=>{
-            //             p.types.find(t=>t===action.typeP)
-            //         })
-            //         if(filteredArray.length===0) filteredArray = state.pokemonsLoaded;
-            //         break;
-            // }
 
-            if(action.typeP!=="all"){
+
+            //Filtra por tipo
+            if(action.payload.typeP!=="all"){
 
                 filteredArray = state.pokemonsLoaded.filter(p=>{
-                    return p.types.find(t=>t===action.typeP)
+                    return p.types.find(t=>t===action.payload.typeP)
                 })
                 if(filteredArray.length===0) filteredArray = state.pokemonsLoaded;
             }else{
                 filteredArray = state.pokemonsLoaded;
             }
 
-            if(action.filter==="alphabetical" || action.filter===""){
-                if(action.order==="ascendant" || action.order===""){
-                    sortedArray = filteredArray.sort((a, b)=>{
+            //Filtra por pokemons de API o BD
+            if(action.payload.origin!=="all"){
+                if(action.payload.origin==="api"){                    
+                    originArray = filteredArray.filter(p => Number.isInteger(p.id))
+                }
+                else if(action.payload.origin==="bd"){
+                    originArray = filteredArray.filter(p => !Number.isInteger(p.id))
+                }
+            }
+            else if(action.payload.origin==="all" || action.payload.origin===""){
+                originArray = filteredArray;
+            }            
+            
+            //Filtra por nombre o ataque en orden asc o desc
+            if(action.payload.filter==="alphabetical" || action.payload.filter===""){
+                
+                if(action.payload.order==="ascendant" || action.payload.order===""){
+                    sortedArray = originArray.sort((a, b)=>{
                         if(a.name>b.name) return 1;
                         if(a.name<b.name) return -1;
                         return 0;
                     })
 
                 }
-                else if(action.order==="descendant"){
-                    sortedArray = filteredArray.sort((a, b)=>{
+                else if(action.payload.order==="descendant"){
+                    sortedArray = originArray.sort((a, b)=>{
                         if(a.name>b.name) return -1;
                         if(a.name<b.name) return 1;
                         return 0;
                     })
                 }                
             }
-            else if(action.filter==="attack"){
-                if(action.order==="ascendant" || action.order===""){
-                    sortedArray = filteredArray.sort((a, b)=>a.attack-b.attack)
+            else if(action.payload.filter==="attack"){
+                
+                if(action.payload.order==="ascendant" || action.payload.order===""){
+                    sortedArray = originArray.sort((a, b)=>a.attack-b.attack)
                 }
-                else if(action.order==="descendant"){
-                    sortedArray = filteredArray.sort((a, b)=>b.attack-a.attack)
+                else if(action.payload.order==="descendant"){
+                    sortedArray = originArray.sort((a, b)=>b.attack-a.attack)
                 }
                 else{
-                    sortedArray = filteredArray;
+                    sortedArray = originArray;
                 }
             }
             else{
-                sortedArray = filteredArray;
+                sortedArray = originArray;
             }
+
+
+            
 
             return {
                 ...state,
