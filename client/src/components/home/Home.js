@@ -1,37 +1,27 @@
-import React, {useState} from 'react';
-import {useHistory} from 'react-router-dom';
-import { getPokemons, hideLoader, showLoader, searchPokemonDetail, filterPokemons } from '../../actions/index';
+import React from 'react';
+import { getPokemons} from '../../actions/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react';
 import Card from '../card/Card'
+import FullPageLoader from "../fullpageloader/FullPageLoader"
 import './Home.css';
 import "../fullpageloader/FullPageLoader.css";
 
 export default function Home (){
     
     let dispatch = useDispatch()
+    let loading = useSelector(state => state.loading)
     let pokemons = useSelector(state => state.pokemonsSorted)
-    
-    // function handleFilter(event){
-    //     console.log(event.target.value, event.target.name)
-    //     dispatch(filterPokemons(event.target.value)) setLocalState({...localState, filter : event.target.value});
-    //     if(event.target.name==="order") setLocalState({...localState, order : event.target.value})
-    //     if(event.target.name==="type") setLocalState({...localState, type : event.target.value});
-    //     if(event.target.name==="origin") setLocalState({...localState, origin : event.target.value});
-        
-    // }
     
     useEffect(()=>{
         if(pokemons.length===0) dispatch(getPokemons())               
     }, [])
-    //dispatch(hideLoader())
-    
     
     return(
         <> 
         <div className='cards-container'>{
-        // pokemons.length===0 ? dispatch(showLoader) : 
-        pokemons.map(elem =>
+        loading ? (<FullPageLoader/>) : 
+        (pokemons.map(elem =>
             <Card
                 key={elem.id}
                 id = {elem.id}
@@ -40,7 +30,7 @@ export default function Home (){
                 attack = {elem.attack}
                 types = {elem.types}            
             />)
-        } 
+        )} 
         </div>        
         </>
     )

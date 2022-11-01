@@ -6,7 +6,7 @@ import FilterBar from "./components/filterbar/FilterBar.js";
 import Home from "./components/home/Home.js";
 import Details from "./components/details/Details";
 import Form from "./components/form/Form";
-import FullPageLoader from "./components/fullpageloader/FullPageLoader"
+
 import { Route, Switch } from "react-router-dom";
 
 import './App.css';
@@ -28,7 +28,7 @@ function App() {
           <Route exact path="/pokemons/:id" component={Details} />
           <Route exact path="/pokemons/create" component={Form} />
         </Switch>
-        <FullPageLoader/>
+        
     </React.Fragment>
   );
 }

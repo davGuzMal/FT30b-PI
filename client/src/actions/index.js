@@ -1,36 +1,58 @@
 
 //filter="alphabetical", order="descendant"
-export function getPokemons(filter, order, typeP, origin) {
-    return function(dispatch) {
-        return fetch("http://localhost:3001/pokemons/")
-        .then(response => response.json())
-        .then(json => {
-            dispatch({ 
-                type: "GET_POKEMONS", 
-                payload: json, 
-                filter: filter, 
-                order : order,
-                typeP : typeP,
-                origin : origin
-            });
-        })
-        
-    };
-}
-export function filterPokemons(filter, order, typeP, origin) {
-    return function(dispatch) {
-            dispatch({ 
-            type: "FILTER_POKEMONS",                
-            payload : {
-                filter: filter, 
-                order : order,
-                typeP : typeP,
-                origin : origin
-            }
-        });
-    }       
+export const getPokemons = ()=> async (dispatch) => {
     
+    
+    dispatch({type: "REQUEST_GET_POKEMONS"});
+    fetch("http://localhost:3001/pokemons/")
+    .then(response => response.json())
+    .then(json => {
+        dispatch({ 
+            type: "GET_POKEMONS", 
+            payload: json                    
+        });
+    })
+    
+};
+export const filter1=(order1, order2)=>(dispatch)=> {
+    
+    dispatch({ 
+        type: "FILTER_POKEMONS_1",                
+        payload : {
+            order1,
+            order2
+        }
+    });    
 }
+export const filterPokemons=(order1, order2, filter1, filter2)=>(dispatch)=> {
+    dispatch({ 
+        type: "FILTER_POKEMONS_1",                
+        payload : {
+            order1,
+            order2
+        }
+    });
+    dispatch({ 
+        type: "FILTER_POKEMONS_2",                
+        payload : filter1
+    });
+    dispatch({ 
+        type: "FILTER_POKEMONS_3",                
+        payload : filter2
+    }); 
+
+}
+
+export const filter2=(filter)=>(dispatch)=> {
+    
+    dispatch({ 
+        type: "FILTER_POKEMONS_2",                
+        payload : filter
+    });
+    
+}       
+    
+
 
 export function searchPokemonDetail(name){
     return function (dispatch){
@@ -42,28 +64,14 @@ export function searchPokemonDetail(name){
     }
 }
 
-export function getPokemonDetail(id){
-    return function (dispatch){
-        return fetch("http://localhost:3001/pokemons/" + id)
-        .then(response => response.json())
-        .then(json => {
+export const getPokemonDetail=(id)=>async(dispatch)=>{
+    //dispatch({type: "REQUEST_GET_POKEMONS"});
+    fetch("http://localhost:3001/pokemons/" + id)
+    .then(response => response.json())
+    .then(json => {
         dispatch({ type: "GET_DETAIL_POKEMON", payload: json });
-    });
+        });
     }
-}
-
-export function showLoader(){
-    return function(dispatch){
-        dispatch({type:"SHOW_LOADER"})
-    }
-}
-
-export function hideLoader(){
-    return function(dispatch){
-        
-        dispatch({type:"HIDE_LOADER"})
-    }
-}
 
 export function createPokemon(titulo) {
     return function(dispatch) {
