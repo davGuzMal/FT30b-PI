@@ -1,9 +1,13 @@
-import React from 'react';
+import React , {useState}from 'react';
 import { getPokemons} from '../../actions/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react';
 import Card from '../card/Card'
 import FullPageLoader from "../fullpageloader/FullPageLoader"
+import Navbar from "../navbar/Navbar.js";
+import SearchBar from "../searchbar/SearchBar.js";
+import FilterBar from "../filterbar/FilterBar.js";
+import Paginate from "../paginate/Paginate"
 import './Home.css';
 import "../fullpageloader/FullPageLoader.css";
 
@@ -12,27 +16,49 @@ export default function Home (){
     let dispatch = useDispatch()
     let loading = useSelector(state => state.loading)
     let pokemons = useSelector(state => state.pokemonsSorted)
+
+    //Paginate
+    const [currentPage, setCurrentPage] = useState(1);
+    const cardsPerPage = 12;
+    const totalCards = pokemons.length
+    const indexOfLastCard = currentPage * cardsPerPage;
+	const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+	const currentPokemons = pokemons.slice(indexOfFirstCard, indexOfLastCard);
     
     useEffect(()=>{
         if(pokemons.length===0) dispatch(getPokemons())               
     }, [])
     
+    
     return(
-        <> 
-        <div className='cards-container'>{
-        loading ? (<FullPageLoader/>) : 
-        (pokemons.map(elem =>
-            <Card
-                key={elem.id}
-                id = {elem.id}
-                name = {elem.name}          
-                image = {elem.image}
-                attack = {elem.attack}
-                types = {elem.types}            
-            />)
-        )} 
-        </div>        
-        </>
+        <div className='main-cointaner'>
+        <Navbar />
+        <SearchBar/>
+        <FilterBar/> 
+            <div className='cards-container'>{
+            loading ? (<FullPageLoader/>) : 
+            (currentPokemons.map(elem =>
+                <Card
+                    key={elem.id}
+                    id = {elem.id}
+                    name = {elem.name}          
+                    image = {elem.image}
+                    attack = {elem.attack}
+                    types = {elem.types}            
+                />)
+            )} 
+            </div>
+            
+            {totalCards>cardsPerPage && (
+                <Paginate
+                currentPage = {currentPage}
+                setCurrentPage= {setCurrentPage}
+                totalCards = {totalCards}
+                cardsPerPage = {cardsPerPage}
+                />
+            )}
+            </div>       
+        
     )
   }
 

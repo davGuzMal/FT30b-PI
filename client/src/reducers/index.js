@@ -1,68 +1,92 @@
 const initialState = {
-    pagination: [],
+    page: 1,
     pokemonCreated: {},
     pokemonsLoaded: [],
     pokemonsSorted: [],
     pokemonDetail: {},
+    activeFilters : [],
     loading: false
 };
+
+function sortAsc(arr, property) {
+   return arr.sort(function (a, b) {
+       if (a[property] > b[property]) {
+           return 1;
+       }
+       if (b[property]> a[property]) {
+           return -1;
+       }
+       return 0;
+   })
+}
+
+function sortDesc(arr, property) {
+   return arr.sort(function (a, b) {
+       if (a[property] > b[property]) {
+           return -1;
+       }
+       if (b[property]> a[property]) {
+           return 1;
+       }
+       return 0;
+   })
+}
 
 function rootReducer (state = initialState, action){
     switch (action.type) {        
         case "FILTER_POKEMONS_1":
-            let filteredArray1=[]
-            if(action.payload.order1==="alphabetical" || action.payload.order1===""){
-                    
-                if(action.payload.order2==="ascendant" || action.payload.order2===""){
-                    filteredArray1 = state.pokemonsSorted.sort((a, b)=>{
-                        if(a.name>b.name) return 1;
-                        if(a.name<b.name) return -1;
-                        return 0;
-                    })
+            let newState = Object.assign({}, state);
+            let sortedArray1=[]
+            if(action.payload.order==="asc") sortedArray1 = sortAsc(newState.pokemonsSorted, action.payload.property)
+            else if(action.payload.order==="desc") sortedArray1 = sortDesc(newState.pokemonsSorted, action.payload.property)
 
+            let activeFilters = state.activeFilters
+            if(action.payload.order){
+                let index = activeFilters.indexOf("FILTER_POKEMONS_1")
+                if (index===-1){
+                    activeFilters.push("FILTER_POKEMONS_1")
+                    newState.pokemonsSorted = sortedArray1
                 }
-                else if(action.payload.order2==="descendant"){
-                    filteredArray1 = state.pokemonsSorted.sort((a, b)=>{
-                        if(a.name>b.name) return -1;
-                        if(a.name<b.name) return 1;
-                        return 0;
-                    })
-                }                
-            }
-            else if(action.payload.order1==="attack"){
-                
-                if(action.payload.order2==="ascendant" || action.payload.order2===""){
-                    filteredArray1 = state.pokemonsSorted.sort((a, b)=>a.attack-b.attack)
-                }
-                else if(action.payload.order2==="descendant"){
-                    filteredArray1 = state.pokemonsSorted.sort((a, b)=>b.attack-a.attack)
-                }
-                else{
-                    filteredArray1 = state.pokemonsSorted
+            }else{
+                let index = activeFilters.indexOf("FILTER_POKEMONS_1")
+                activeFilters.splice(index, 1)
+                if(activeFilters.length===0){
+                    newState.pokemonsSorted = newState.pokemonsLoaded
                 }
             }
-            else{
-                filteredArray1 = state.pokemonsSorted
-            }
-            return{
-                ...state,
-                sortedArray : filteredArray1
-            }
+            
+            return newState
         case "FILTER_POKEMONS_2":
+            let newState2 = Object.assign({}, state);
             let filteredArray2=[]
             if(action.payload!=="all"){
     
-                filteredArray2 = state.pokemonsLoaded.filter(p=>{
+                filteredArray2 = newState2.pokemonsLoaded.filter(p=>{
                     return p.types.find(t=>t===action.payload)
                 })
-                if(filteredArray2.length===0) filteredArray2 = state.pokemonsLoaded;
-            }else{
-                filteredArray2 = state.pokemonsLoaded;
+                if(filteredArray2.length===0) filteredArray2 = newState2.pokemonsLoaded;
+
+                let activeFilters = state.activeFilters
+                // if(action.payload){
+                    let index = activeFilters.indexOf("FILTER_POKEMONS_2")
+                    if (index===-1){
+                        activeFilters.push("FILTER_POKEMONS_2")
+                    }
+                    newState2.pokemonsSorted = filteredArray2
+                
             }
-            return{
-                ...state,
-                pokemonsSorted : filteredArray2
+            else{
+                let activeFilters = state.activeFilters
+                let index = activeFilters.indexOf("FILTER_POKEMONS_2")
+                activeFilters.splice(index, 1)
+                if(activeFilters.length===0){
+                    newState2.pokemonsSorted = newState2.pokemonsLoaded
+                }
+                else{
+                    newState2.pokemonsSorted = newState2.pokemonsLoaded
+                }
             }
+            return newState2;
         case "FILTER_POKEMONS_3":
             let filteredArray3=[]
             
@@ -81,76 +105,7 @@ function rootReducer (state = initialState, action){
                 ...state,
                 pokemonsSorted : filteredArray3
             }
-            // case "FILTER_POKEMONS": 
-            // let filteredArray=[] 
-            // let sortedArray=[] 
-            // let originArray=[]
-            //     //Filtra por tipo
-            //     if(action.payload.typeP!=="all"){
-    
-            //         filteredArray = state.pokemonsLoaded.filter(p=>{
-            //             return p.types.find(t=>t===action.payload.typeP)
-            //         })
-            //         if(filteredArray.length===0) filteredArray = state.pokemonsLoaded;
-            //     }else{
-            //         filteredArray = state.pokemonsLoaded;
-            //     }
-    
-            //     //Filtra por pokemons de API o BD
-            //     if(action.payload.origin!=="all"){
-            //         if(action.payload.origin==="api"){                    
-            //             originArray = filteredArray.filter(p => Number.isInteger(p.id))
-            //         }
-            //         else if(action.payload.origin==="bd"){
-            //             originArray = filteredArray.filter(p => !Number.isInteger(p.id))
-            //         }
-            //     }
-            //     else if(action.payload.origin==="all" || action.payload.origin===""){
-            //         originArray = filteredArray;
-            //     }            
-                
-            //     //Filtra por nombre o ataque en orden asc o desc
-            //     if(action.payload.filter==="alphabetical" || action.payload.filter===""){
-                    
-            //         if(action.payload.order==="ascendant" || action.payload.order===""){
-            //             sortedArray = originArray.sort((a, b)=>{
-            //                 if(a.name>b.name) return 1;
-            //                 if(a.name<b.name) return -1;
-            //                 return 0;
-            //             })
-    
-            //         }
-            //         else if(action.payload.order==="descendant"){
-            //             sortedArray = originArray.sort((a, b)=>{
-            //                 if(a.name>b.name) return -1;
-            //                 if(a.name<b.name) return 1;
-            //                 return 0;
-            //             })
-            //         }                
-            //     }
-            //     else if(action.payload.filter==="attack"){
-                    
-            //         if(action.payload.order==="ascendant" || action.payload.order===""){
-            //             sortedArray = originArray.sort((a, b)=>a.attack-b.attack)
-            //         }
-            //         else if(action.payload.order==="descendant"){
-            //             sortedArray = originArray.sort((a, b)=>b.attack-a.attack)
-            //         }
-            //         else{
-            //             sortedArray = originArray;
-            //         }
-            //     }
-            //     else{
-            //         sortedArray = originArray;
-            //     }
-    
-    
-                
-    
-            //     return {
-            //         ...state,
-            //         pokemonsSorted: sortedArray
-            //     };
+            
         case "REQUEST_GET_POKEMONS":
 
             return{

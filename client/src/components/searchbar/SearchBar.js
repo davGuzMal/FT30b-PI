@@ -14,7 +14,7 @@ export default function SearchBar (){
 
     function handleSub(event){
         event.preventDefault();
-        console.log(state.namePokemon)
+        //console.log(state.namePokemon)
         dispatch(searchPokemonDetail(state.namePokemon.toLowerCase()))
         if(pokemonSeeked.hasOwnProperty("name")){
             redirect.push('/pokemons/'+pokemonSeeked.id)
@@ -29,7 +29,7 @@ export default function SearchBar (){
     return (
         
         <div className='search-tools'>
-        <h2>{"Pokemon seeker "+state.namePokemon}</h2>
+        <h2>{"POKEMON SEEKER"}</h2>
         <form className="form-container" onSubmit={(event) => handleSub(event)}>
           <div>
             <label className="label" htmlFor="title">Search pokemon: </label>
@@ -41,7 +41,7 @@ export default function SearchBar (){
               onChange={(event) => handleChange(event)}
             />
           </div>
-          <button type="submit">BUSCAR</button>
+          <button type="submit">SEARCH</button>
         </form>
         </div>
     )

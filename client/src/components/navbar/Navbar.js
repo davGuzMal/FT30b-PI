@@ -8,7 +8,7 @@ import "./Navbar.css";
 export default function Navbar () {
         return(
             <header className="navbar">
-                <div>
+                <div className='img-container'>
                     <img id="pokeball" src={Logo} width="100" height="50" alt="" />
                 </div>
                 <nav>
@@ -17,7 +17,7 @@ export default function Navbar () {
                             <NavLink exact to="/pokemons" >Home</NavLink>                        
                         </li>
                         <li className="list-item">                        
-                            <NavLink to="/pokemons/create" >Add pokemon</NavLink>
+                            <NavLink exact to="/create" >Add pokemon</NavLink>
                         </li>                   
                     </ul>
                 </nav>            

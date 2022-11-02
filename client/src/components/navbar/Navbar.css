@@ -3,7 +3,7 @@
     width: 100%;
     top: 0;
     left: 0;
-    background-color: #303236;
+    background-color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,6 +23,7 @@
     flex-flow: row;
     align-items: center;
     height: 100%;
+    
 }
 
 .list-item {
@@ -34,14 +35,17 @@
 }
 
 .list-item a {
-    color: white;
+    color: rgb(18, 102, 56);
     height: 100%;
     padding: 16px 10px;
     border-bottom: 4px solid transparent;
 }
-
+.list-item a{
+    text-decoration: none;
+}
 .list-item a:hover,
 .list-item a.active {
-    background-color: #808080;
+    background-color: #24944f;
     color: white;
+    
 }

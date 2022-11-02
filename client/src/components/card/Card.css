@@ -1,12 +1,14 @@
 .card{
-    background-color: rgba(213, 236, 231, 0.918);
+    background-color: rgba(233, 236, 236, 0.918);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     flex-wrap: wrap;        
     border: 1px outset;
+    color: rgb(28, 16, 82);
     border-radius: 10px; 
-    width: 350px;  
+    width: 350px;
+    text-decoration: grey;
   }
   .footerCard{
     display: flex;
@@ -22,7 +24,27 @@
   }
   .title{
     text-align: center;
+    
   }
-  .Link {
+  .link {
     text-decoration: none;
+    
+  }
+  .attack{
+    text-align: center;    
+  }
+  .types{
+    text-align: center;
+    
+  }
+  .types h3{
+    text-align: center;
+    
+  }
+  .types ul{
+    list-style-type: none;
+    text-align: left;    
+  }
+  .types li{
+    text-align: left;  
   }

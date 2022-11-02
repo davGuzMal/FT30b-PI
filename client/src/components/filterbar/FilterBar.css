@@ -1,6 +1,6 @@
-.search-tools {
+.filter-tools{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-self: center;
     margin: auto;
     border: 2px solid green;
@@ -8,27 +8,17 @@
     border-radius: 10px;
     background-color: rgb(173, 223, 190);
     width: fit-content;
+    column-gap: 20px;
 }
-.search-tools h2{
+
+.filter-tools label{
     text-align: center;   
     color: rgb(81, 88, 79); 
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-style: italic;
 }
-.form-container {
-    display:flex;
-    flex-direction: row;
-    align-items: flex-start;
-    color: rgb(81, 88, 79); 
+
+.fill-tools select{
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-style: italic;
-}
-.form-container input {
-    border-radius: 8px;
-}
-.form-container button {
-    margin-left: 20px;
-    border-radius: 8px;
-    background-color: rgb(160, 223, 181);
-    border: 1px solid green;
 }

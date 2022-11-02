@@ -1,18 +1,18 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {filterPokemons } from '../../actions/index';
+import {filter2 } from '../../actions/index';
 import {useEffect} from 'react';
 
 export default function Filter1 (){
     const [state, setState] = useState({            
-        filter : ""
+        filter : "all"
     })
 
     let dispatch = useDispatch()
     
     useEffect(()=>{        
         
-        dispatch(filterPokemons(null, null, state.filter))
+        dispatch(filter2(state.filter))
                   
     }, [state])
 

@@ -12,7 +12,7 @@ export default function Filter1 (){
     
     useEffect(()=>{        
         
-        dispatch(filterPokemons(null, null, null, state.filter))
+        //dispatch(filterPokemons(null, null, null, state.filter))
                   
     }, [state])
 
