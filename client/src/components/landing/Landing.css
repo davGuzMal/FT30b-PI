@@ -1,24 +1,42 @@
-.pokemon-detail{
-    background-image: url("./img/pokemon_landing.jpg"); 
-    background-size: cover;
-    width: 1200px;
-    height: 900px;   
-    /* background-size: cover;
-    text-align: center;
+.landing-container{
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: space-between;
-     */
-    
-    /* align-items: baseline; */
-    
+    flex-direction: row;
+    justify-content: space-around;
+    align-self: center;
+    margin-top: 40px;
+    margin: auto;
+    column-gap: 30px;
+    width: fit-content;
+    padding: 170px 0;
     
 }
 
+.pokemon-detail{
+    
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    margin: auto;
+    border: 2px solid green;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgb(173, 223, 190);
+    width: fit-content;
+
+    text-align: center;   
+    color: rgb(81, 88, 79); 
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-style: italic;
+}
+.landing-image{
+    height: 240px;
+    width: 240px;
+}
 .goHome{
-    margin-left: auto;
-    margin-right: auto;
-    /* margin-top: 900px; */
-    text-align: center;
+    height: 50px;
+    background-color: rgb(74, 199, 116);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-style: italic;
+    font-size: medium;
+    border: 1px outset green;
 }

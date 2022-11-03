@@ -62,7 +62,7 @@ router.get("/", async (req, res)=>{
         }
         else {
             let pokemonBD = await Pokemon.findAll({include : Type});
-            let pokemonsUrl = await fetch("https://pokeapi.co/api/v2/pokemon?limit=40&offset=0") 
+            let pokemonsUrl = await fetch("https://pokeapi.co/api/v2/pokemon?limit=80&offset=0") 
             .then(response => response.json())
             .then(json=>json.results)
     
@@ -163,7 +163,7 @@ router.post('/', async(req, res)=>{
     try{
 
 
-        if(!id || !name || !types) return res.status(404).send('Falta enviar datos obligatorios');
+        if(!id || !name || !types) return res.send('Falta enviar datos obligatorios');
     
         const newPokemon = await Pokemon.create({
             id : `${id}B`,
@@ -174,7 +174,7 @@ router.post('/', async(req, res)=>{
             speed,
             height,
             weight,
-            image
+            image : "https://www.emp-online.fr/dw/image/v2/BBQV_PRD/on/demandware.static/-/Sites-master-emp/default/dw3d0bb8f3/images/4/8/6/6/486631a.jpg?sw=1000&sh=800&sm=fit&sfrm=png"
           });
         
         for (let i = 0; i < types.length; i++) {
@@ -192,9 +192,9 @@ router.post('/', async(req, res)=>{
         //     })
         //     )
         // })
-        res.status(201).json(newPokemon);
+        res.status(201).send("Pokemon "+newPokemon.name+" created successfully");
     }catch(err){
-        return res.status(404).send(err) 
+        return res.json(err.errors) 
     }
 })
 

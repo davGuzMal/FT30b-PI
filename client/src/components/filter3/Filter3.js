@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {filterPokemons } from '../../actions/index';
+import {filter3 } from '../../actions/index';
 import {useEffect} from 'react';
 
-export default function Filter1 (){
+export default function Filter3 (){
     const [state, setState] = useState({            
         filter : ""
     })
@@ -12,10 +12,10 @@ export default function Filter1 (){
     
     useEffect(()=>{        
         
-        //dispatch(filterPokemons(null, null, null, state.filter))
+        dispatch(filter3(state.filter))
                   
     }, [state])
-
+    console.log(state.filter)
     return (
         <div>
             <label htmlFor="order">Choose origin:</label>

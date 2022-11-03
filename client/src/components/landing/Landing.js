@@ -1,29 +1,29 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-//import {useDispatch, useSelector} from 'react-redux';
 import "./Landing.css";
-//import { hideLoader, showLoader } from '../../actions';
+
 
 export default function Landing () {
-        
-    
-    // const handleHome = function() {
-    //     console.log("Hola "+loading)
-    //     dispatch(showLoader())        
-    //     setTimeout(()=>{
-    //         dispatch(hideLoader())
-    //     }, 2000)
-    //   }
-
-    return(
+      
+    return(        
+        <div className="landing-container">
+        <div>
+            <img className="landing-image" src="https://www.freepnglogos.com/uploads/pok-mon-go-logo-png-30.png" alt=''/>
+        </div>
         <div className="pokemon-detail">
-             Bienvenido a la Pokemon API                
-             <h1>Existen mas de 3.400.535 Pokemon</h1>
-             <Link to="/pokemons">
+
+            
+            <h1>Welcome to The Pokemon API</h1>
+            <h2>More than 3.400.535 pokemons exist around the world</h2>
+            <Link to="/pokemons">
                 <button className="goHome">
-                !Atrapalos ya!                
+                !Gotta catch 'em all!                
                 </button>
             </Link>
         </div>
-    )
+        <div>
+            <img className="landing-image" src="https://www.freepnglogos.com/uploads/pok-mon-go-logo-png-30.png" alt=''/>
+        </div>
+        </div>
+        )
 }

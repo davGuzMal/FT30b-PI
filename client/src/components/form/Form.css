@@ -6,3 +6,51 @@ p.danger {
   input.danger {
     border: 2px solid red;
   }
+.container1{
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  margin: auto;
+  border: 2px solid green;
+  padding: 2px;
+  border-radius: 10px;
+  background-color: rgb(150, 160, 153);
+  width: 65%;
+}
+.container1 h1{
+  text-align: center;   
+  color: rgb(15, 92, 41); 
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-style: italic;
+}
+.create-container{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  align-content: space-around;
+  
+  text-align: center;   
+  color: rgb(15, 92, 41); 
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-style: italic;
+}
+.create-container label{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.create-container input,
+.create-container select{
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-style: italic;
+}
+.create-container button{
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-style: italic;
+  color: rgb(15, 92, 41);
+  background-color: rgb(171, 185, 176);
+  border: 1px solid green;
+  border-radius: 8px;
+  width: 95px;
+}

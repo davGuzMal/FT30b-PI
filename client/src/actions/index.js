@@ -77,7 +77,15 @@ export const filter2=(filter)=>(dispatch)=> {
         payload : filter
     });
     
-}       
+}
+export const filter3=(filter)=>(dispatch)=> {
+    
+    dispatch({ 
+        type: "FILTER_POKEMONS_3",                
+        payload : filter
+    });
+    
+}
     
 
 

@@ -37,8 +37,8 @@ function rootReducer (state = initialState, action){
         case "FILTER_POKEMONS_1":
             let newState = Object.assign({}, state);
             let sortedArray1=[]
-            if(action.payload.order==="asc") sortedArray1 = sortAsc(newState.pokemonsSorted, action.payload.property)
-            else if(action.payload.order==="desc") sortedArray1 = sortDesc(newState.pokemonsSorted, action.payload.property)
+            if(action.payload.order==="asc") sortedArray1 = sortAsc(newState.pokemonsLoaded, action.payload.property)
+            else if(action.payload.order==="desc") sortedArray1 = sortDesc(newState.pokemonsLoaded, action.payload.property)
 
             let activeFilters = state.activeFilters
             if(action.payload.order){
@@ -68,11 +68,11 @@ function rootReducer (state = initialState, action){
 
                 let activeFilters = state.activeFilters
                 // if(action.payload){
-                    let index = activeFilters.indexOf("FILTER_POKEMONS_2")
-                    if (index===-1){
-                        activeFilters.push("FILTER_POKEMONS_2")
-                    }
-                    newState2.pokemonsSorted = filteredArray2
+                let index = activeFilters.indexOf("FILTER_POKEMONS_2")
+                if (index===-1){
+                    activeFilters.push("FILTER_POKEMONS_2")
+                }
+                newState2.pokemonsSorted = filteredArray2
                 
             }
             else{
@@ -88,23 +88,33 @@ function rootReducer (state = initialState, action){
             }
             return newState2;
         case "FILTER_POKEMONS_3":
+            let newState3 = Object.assign({}, state);
             let filteredArray3=[]
             
             if(action.payload!=="all"){
                 if(action.payload==="api"){                    
-                    filteredArray3 = state.pokemonsSorted.filter(p => Number.isInteger(p.id))
+                    filteredArray3 = newState3.pokemonsLoaded.filter(p => Number.isInteger(p.id))
                 }
                 else if(action.payload==="bd"){
-                    filteredArray3 = state.pokemonsSorted.filter(p => !Number.isInteger(p.id))
+                    filteredArray3 = newState3.pokemonsLoaded.filter(p => !Number.isInteger(p.id))
                 }
+                let activeFilters = state.activeFilters
+                // if(action.payload){
+                let index = activeFilters.indexOf("FILTER_POKEMONS_3")
+                if (index===-1){
+                    activeFilters.push("FILTER_POKEMONS_3")
+                }
+                newState3.pokemonsSorted = filteredArray3
             }
             else if(action.payload==="all" || action.payload===""){
-                filteredArray3 = state.pokemonsSorted;
+                filteredArray3 = newState3.pokemonsSorted;
+                let activeFilters = state.activeFilters
+                let index = activeFilters.indexOf("FILTER_POKEMONS_2")
+                activeFilters.splice(index, 1)
+
+                newState3.pokemonsSorted = newState3.pokemonsLoaded
             }
-            return{
-                ...state,
-                pokemonsSorted : filteredArray3
-            }
+            return newState3
             
         case "REQUEST_GET_POKEMONS":
 

@@ -1,39 +1,60 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import { createPokemon} from '../../actions/index';
 import axios from 'axios';
-
+import './Form.css'
 
 
 export function validate(input) {
     let errors = {};
+    //id validations
+    if (!input.id) {
+        errors.id = 'ID is required';
+    }
+    else if (!Number.isInteger(parseInt(input.id))) {
+        errors.id = 'ID must be an integer number';
+    }
+    //name validations
     if (!input.name) {
       errors.name = 'Name is required';
     }
-    else if (!input.id) {
-        errors.id = 'ID is required';
+    else if (Number.isInteger(parseInt(input.name))) {
+        errors.name = 'Name cant be a number';
     }
-    // else if (!/\S+@\S+\.\S+/.test(input.username)) {
-    //   errors.username = 'Username is invalid';
-    // }
+    if (!Number.isInteger(parseInt(input.hp))) {
+        errors.hp = 'HP must be an integer number';
+    }
+    if (!Number.isInteger(parseInt(input.attack))) {
+        errors.attack = 'Attack must be an integer number';
+    }
+    if (!Number.isInteger(parseInt(input.defense))) {
+        errors.defense = 'Defense must be an integer number';
+    }
+    if (!Number.isInteger(parseInt(input.speed))) {
+        errors.speed = 'Speed must be an integer number';
+    }
+    if (!Number.isInteger(parseInt(input.height))) {
+        errors.height = 'Height must be an integer number';
+    }
+    if (!Number.isInteger(parseInt(input.weight))) {
+        errors.weight = 'Weight must be an integer number';
+    }
     if (!input.type1 && !input.type2) {
       errors.type1 = 'At least 1 type is required';
     }
-    // else if((!/(?=.*[0-9])/.test(input.password))){
-    //   errors.password = 'Password is invalid';
-    // }
+    else if (input.type1 === input.type2) {
+        errors.type2 = 'Types cant be equal';
+    }
+    
   
     return errors;
   };
 
-export default function Form() {
-
-    let dispatch = useDispatch()
+export default function Form() {    
     let result = ""
     const [errors, setErrors] = useState({});
     const [output, setOutput] = useState("")
     const [input, setInput] = useState({
-        ID: '',
+        id: '',
         name: '',
         hp: '',
         attack: '',
@@ -56,11 +77,11 @@ export default function Form() {
           [e.target.name]: e.target.value
         }));
       }
-    const handleSubmit = function(e, result){
+    const handleSubmit = function(e){
         e.preventDefault();
         const data = {
             id: parseInt(input.id),
-            name: input.name,
+            name: input.name.toLowerCase(),
             hp: parseInt(input.hp),
             attack: parseInt(input.attack),
             defense: parseInt(input.defense),
@@ -70,11 +91,19 @@ export default function Form() {
             types: [input.type1, input.type2],
             image : ""
         }
-        const element = document.querySelector('.response');
+        
         axios.post("http://localhost:3001/pokemons/", data)
-        .then((response, output) => {
-            output = response.data.id
-            console.log(response.data.name)
+        .then((response) => { 
+            if(Array.isArray(response.data)){
+                result=response.data
+                result.forEach((element)=>console.log(element.message))
+                
+            }         
+            else{
+                result=response.data.toString();
+                console.log(result)
+            }
+            
         })
         .catch(error=>{throw new Error(error)})
         // fetch("http://localhost:3001/pokemons/create",{
@@ -86,8 +115,9 @@ export default function Form() {
         //})
         
     }
+    
     return (
-        <div>
+        <div className='container1'>
              <h1>Create new pokemon</h1>   
             <form className="create-container" onSubmit={(event) => handleSubmit(event)}>
             <div>
@@ -148,7 +178,7 @@ export default function Form() {
             </div>
             <div>
             <label>Type:</label>
-            <select id="type1" name="type1" value={input.type1} onChange={handleInputChange}>
+            <select className={errors.type1 && 'danger'} id="type1" name="type1" value={input.type1} onChange={handleInputChange}>
                 <option value="">Choose type1</option>            
                 <option value="normal">Normal</option>
                 <option value="fighting">Fighting</option>
@@ -171,7 +201,7 @@ export default function Form() {
                 <option value="unknown">Unknown</option>
                 <option value="shadow">Shadow</option>
             </select>
-            <select id="type2" name="type2" value={input.type2} onChange={handleInputChange}>
+            <select className={errors.type1 && 'danger'} id="type2" name="type2" value={input.type2} onChange={handleInputChange}>
                 <option value="">Choose type2</option>            
                 <option value="normal">Normal</option>
                 <option value="fighting">Fighting</option>
@@ -194,10 +224,16 @@ export default function Form() {
                 <option value="unknown">Unknown</option>
                 <option value="shadow">Shadow</option>
             </select>
+            {errors.type1 && (
+            <p className="danger">{errors.type1}</p>
+            )}
+            {errors.type2 && (
+            <p className="danger">{errors.type2}</p>
+            )}
             </div>
-            <input type="submit" />
+            <button type="submit">CREATE</button>
         </form>
-        <h2 id="response">{result}</h2>
+        
         
       </div>
       )
