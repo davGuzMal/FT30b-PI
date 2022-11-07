@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {useEffect} from 'react';
+import { getPokemons} from '../../actions/index';
+import {useHistory} from 'react-router-dom';
 import axios from 'axios';
 import './Form.css'
 
@@ -51,8 +54,11 @@ export function validate(input) {
 
 export default function Form() {    
     let result = ""
+    let redirect = useHistory()
+    let types = useSelector(state => state.pokemonTypes)
+    let dispatch = useDispatch()
     const [errors, setErrors] = useState({});
-    const [output, setOutput] = useState("")
+    //const [output, setOutput] = useState("")
     const [input, setInput] = useState({
         id: '',
         name: '',
@@ -79,6 +85,7 @@ export default function Form() {
       }
     const handleSubmit = function(e){
         e.preventDefault();
+        console.log(input)
         const data = {
             id: parseInt(input.id),
             name: input.name.toLowerCase(),
@@ -95,13 +102,17 @@ export default function Form() {
         axios.post("http://localhost:3001/pokemons/", data)
         .then((response) => { 
             if(Array.isArray(response.data)){
-                result=response.data
-                result.forEach((element)=>console.log(element.message))
+                console.log(response.data)
+                response.data.forEach((element)=>{
+                    if(element.message==='name must be unique') alert("Pokemon already existe, please choose another name")
+                    else{alert(element.message)}
+                })
                 
             }         
             else{
                 result=response.data.toString();
-                console.log(result)
+                alert(result)
+                redirect.push('/pokemons')
             }
             
         })
@@ -115,6 +126,9 @@ export default function Form() {
         //})
         
     }
+    useEffect(()=>{
+        if(types.length===0) dispatch(getPokemons())               
+    }, [types, dispatch])
     
     return (
         <div className='container1'>
@@ -179,50 +193,20 @@ export default function Form() {
             <div>
             <label>Type:</label>
             <select className={errors.type1 && 'danger'} id="type1" name="type1" value={input.type1} onChange={handleInputChange}>
-                <option value="">Choose type1</option>            
-                <option value="normal">Normal</option>
-                <option value="fighting">Fighting</option>
-                <option value="flying">Flying</option>
-                <option value="poison">Poison</option>
-                <option value="ground">Ground</option>
-                <option value="rock">Rock</option>
-                <option value="bug">Bug</option>
-                <option value="ghost">Ghost</option>
-                <option value="steel">Steel</option>
-                <option value="fire">Fire</option>
-                <option value="water">Water</option>
-                <option value="grass">Grass</option>
-                <option value="electric">Electric</option>
-                <option value="psychic">Psychic</option>
-                <option value="ice">Ice</option>
-                <option value="dragon">Dragon</option>
-                <option value="dark">Dark</option>
-                <option value="fairy">Fairy</option>
-                <option value="unknown">Unknown</option>
-                <option value="shadow">Shadow</option>
+                <option value="">Choose type1</option>
+                {types.length && types.map(t=>(
+
+                <option value={t.name} key={t.id}>{t.name.charAt(0).toUpperCase() + t.name.slice(1)}</option>
+                ))}          
+                
             </select>
             <select className={errors.type1 && 'danger'} id="type2" name="type2" value={input.type2} onChange={handleInputChange}>
-                <option value="">Choose type2</option>            
-                <option value="normal">Normal</option>
-                <option value="fighting">Fighting</option>
-                <option value="flying">Flying</option>
-                <option value="poison">Poison</option>
-                <option value="ground">Ground</option>
-                <option value="rock">Rock</option>
-                <option value="bug">Bug</option>
-                <option value="ghost">Ghost</option>
-                <option value="steel">Steel</option>
-                <option value="fire">Fire</option>
-                <option value="water">Water</option>
-                <option value="grass">Grass</option>
-                <option value="electric">Electric</option>
-                <option value="psychic">Psychic</option>
-                <option value="ice">Ice</option>
-                <option value="dragon">Dragon</option>
-                <option value="dark">Dark</option>
-                <option value="fairy">Fairy</option>
-                <option value="unknown">Unknown</option>
-                <option value="shadow">Shadow</option>
+                <option value="">Choose type2</option>
+                {types.length && types.map(t=>(
+
+                <option value={t.name} key={t.id}>{t.name.charAt(0).toUpperCase() + t.name.slice(1)}</option>
+                ))}              
+                
             </select>
             {errors.type1 && (
             <p className="danger">{errors.type1}</p>

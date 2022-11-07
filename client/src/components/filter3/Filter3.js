@@ -14,8 +14,8 @@ export default function Filter3 (){
         
         dispatch(filter3(state.filter))
                   
-    }, [state])
-    console.log(state.filter)
+    }, [state, dispatch])
+    
     return (
         <div>
             <label htmlFor="order">Choose origin:</label>

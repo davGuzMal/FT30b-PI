@@ -8,7 +8,9 @@
     color: rgb(28, 16, 82);
     border-radius: 10px; 
     width: 350px;
-    text-decoration: grey;
+    color: rgb(81, 88, 79); 
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-style: italic;
   }
   .footerCard{
     display: flex;

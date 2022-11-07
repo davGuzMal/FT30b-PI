@@ -27,7 +27,7 @@ export default function Home (){
     
     useEffect(()=>{
         if(pokemons.length===0) dispatch(getPokemons())               
-    }, [])
+    }, [pokemons, dispatch])
     
     
     return(

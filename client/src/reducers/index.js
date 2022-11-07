@@ -1,10 +1,9 @@
-const initialState = {
-    page: 1,
+const initialState = {    
     pokemonCreated: {},
+    pokemonTypes: [],
     pokemonsLoaded: [],
     pokemonsSorted: [],
-    pokemonDetail: {},
-    activeFilters : [],
+    pokemonDetail: {},    
     loading: false
 };
 
@@ -34,87 +33,51 @@ function sortDesc(arr, property) {
 
 function rootReducer (state = initialState, action){
     switch (action.type) {        
-        case "FILTER_POKEMONS_1":
-            let newState = Object.assign({}, state);
+        case "FILTER_POKEMONS_1":            
             let sortedArray1=[]
-            if(action.payload.order==="asc") sortedArray1 = sortAsc(newState.pokemonsLoaded, action.payload.property)
-            else if(action.payload.order==="desc") sortedArray1 = sortDesc(newState.pokemonsLoaded, action.payload.property)
-
-            let activeFilters = state.activeFilters
-            if(action.payload.order){
-                let index = activeFilters.indexOf("FILTER_POKEMONS_1")
-                if (index===-1){
-                    activeFilters.push("FILTER_POKEMONS_1")
-                    newState.pokemonsSorted = sortedArray1
-                }
-            }else{
-                let index = activeFilters.indexOf("FILTER_POKEMONS_1")
-                activeFilters.splice(index, 1)
-                if(activeFilters.length===0){
-                    newState.pokemonsSorted = newState.pokemonsLoaded
-                }
-            }
+            if(action.payload.order==="asc") sortedArray1 = sortAsc(state.pokemonsSorted, action.payload.property)
+            else if(action.payload.order==="desc") sortedArray1 = sortDesc(state.pokemonsSorted, action.payload.property)
             
-            return newState
-        case "FILTER_POKEMONS_2":
-            let newState2 = Object.assign({}, state);
+            return {
+                ...state,
+                pokemonsSorted : [...sortedArray1]
+            }
+        case "FILTER_POKEMONS_2":            
             let filteredArray2=[]
             if(action.payload!=="all"){
     
-                filteredArray2 = newState2.pokemonsLoaded.filter(p=>{
+                filteredArray2 = state.pokemonsSorted.filter(p=>{
                     return p.types.find(t=>t===action.payload)
                 })
-                if(filteredArray2.length===0) filteredArray2 = newState2.pokemonsLoaded;
-
-                let activeFilters = state.activeFilters
-                // if(action.payload){
-                let index = activeFilters.indexOf("FILTER_POKEMONS_2")
-                if (index===-1){
-                    activeFilters.push("FILTER_POKEMONS_2")
-                }
-                newState2.pokemonsSorted = filteredArray2
+                if(filteredArray2.length===0) filteredArray2 = state.pokemonsSorted;
                 
             }
-            else{
-                let activeFilters = state.activeFilters
-                let index = activeFilters.indexOf("FILTER_POKEMONS_2")
-                activeFilters.splice(index, 1)
-                if(activeFilters.length===0){
-                    newState2.pokemonsSorted = newState2.pokemonsLoaded
-                }
-                else{
-                    newState2.pokemonsSorted = newState2.pokemonsLoaded
-                }
+            else{                
+                filteredArray2 = state.pokemonsSorted;
             }
-            return newState2;
-        case "FILTER_POKEMONS_3":
-            let newState3 = Object.assign({}, state);
+            return {
+                ...state,
+                pokemonsSorted : filteredArray2
+            }
+        case "FILTER_POKEMONS_3":            
             let filteredArray3=[]
             
             if(action.payload!=="all"){
                 if(action.payload==="api"){                    
-                    filteredArray3 = newState3.pokemonsLoaded.filter(p => Number.isInteger(p.id))
+                    filteredArray3 = state.pokemonsLoaded.filter(p => Number.isInteger(p.id))
                 }
                 else if(action.payload==="bd"){
-                    filteredArray3 = newState3.pokemonsLoaded.filter(p => !Number.isInteger(p.id))
+                    filteredArray3 = state.pokemonsLoaded.filter(p => !Number.isInteger(p.id))
                 }
-                let activeFilters = state.activeFilters
-                // if(action.payload){
-                let index = activeFilters.indexOf("FILTER_POKEMONS_3")
-                if (index===-1){
-                    activeFilters.push("FILTER_POKEMONS_3")
-                }
-                newState3.pokemonsSorted = filteredArray3
+                
             }
             else if(action.payload==="all" || action.payload===""){
-                filteredArray3 = newState3.pokemonsSorted;
-                let activeFilters = state.activeFilters
-                let index = activeFilters.indexOf("FILTER_POKEMONS_2")
-                activeFilters.splice(index, 1)
-
-                newState3.pokemonsSorted = newState3.pokemonsLoaded
+                filteredArray3 = state.pokemonsLoaded;                
             }
-            return newState3
+            return {
+                ...state,
+                pokemonsSorted : filteredArray3
+            }
             
         case "REQUEST_GET_POKEMONS":
 
@@ -127,9 +90,14 @@ function rootReducer (state = initialState, action){
                 ...state,
                 pokemonsLoaded: action.payload,
                 pokemonsSorted: action.payload,
+                pokemonDetail : {},
                 loading : false
             };
-            
+        case "GET_TYPES_POKEMONS":
+                return {
+            ...state,
+            pokemonTypes : action.payload
+        };    
         case "GET_DETAIL_POKEMON":
 
             return {

@@ -4,6 +4,14 @@ export const getPokemons = ()=> async (dispatch) => {
     
     
     dispatch({type: "REQUEST_GET_POKEMONS"});
+    fetch("http://localhost:3001/types/")
+    .then(response => response.json())
+    .then(json => {
+        dispatch({ 
+            type: "GET_TYPES_POKEMONS", 
+            payload: json                    
+        });
+    })
     fetch("http://localhost:3001/pokemons/")
     .then(response => response.json())
     .then(json => {
@@ -51,24 +59,6 @@ export const filter1=(order)=>(dispatch)=> {
         });
     }
 }
-// export const filterPokemons=(order1, order2, filter1, filter2)=>(dispatch)=> {
-//     dispatch({ 
-//         type: "FILTER_POKEMONS_1",                
-//         payload : {
-//             order1,
-//             order2
-//         }
-//     });
-//     dispatch({ 
-//         type: "FILTER_POKEMONS_2",                
-//         payload : filter1
-//     });
-//     dispatch({ 
-//         type: "FILTER_POKEMONS_3",                
-//         payload : filter2
-//     }); 
-
-// }
 
 export const filter2=(filter)=>(dispatch)=> {
     
@@ -86,8 +76,6 @@ export const filter3=(filter)=>(dispatch)=> {
     });
     
 }
-    
-
 
 export function searchPokemonDetail(name){
     return function (dispatch){
@@ -108,34 +96,25 @@ export const getPokemonDetail=(id)=>(dispatch)=>{
         });
     }
 
-export const createPokemon=(input)=>(dispatch)=>{
-    fetch("http://localhost:3001/pokemons/create",{
-        method: "POST",        
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            id: parseInt(input.id),
-            name: input.name,
-            hp: parseInt(input.hp),
-            attack: parseInt(input.attack),
-            defense: parseInt(input.defense),
-            speed: parseInt(input.speed),
-            height : parseInt(input.height),
-            weight: parseInt(input.weight),
-            type: [input.type1, input.type2],
-            image : ""
-        })
+// export const createPokemon=(input)=>(dispatch)=>{
+//     fetch("http://localhost:3001/pokemons/create",{
+//         method: "POST",        
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//             id: parseInt(input.id),
+//             name: input.name,
+//             hp: parseInt(input.hp),
+//             attack: parseInt(input.attack),
+//             defense: parseInt(input.defense),
+//             speed: parseInt(input.speed),
+//             height : parseInt(input.height),
+//             weight: parseInt(input.weight),
+//             type: [input.type1, input.type2],
+//             image : ""
+//         })
 
-    }).then(()=>{return "Pokemon created succesfully"})
-    .catch((error)=>{throw new Error(error)})
-    // dispatch({type: "REQUEST_GET_POKEMONS"});
-    // fetch("http://localhost:3001/pokemons/")
-    // .then(response => response.json())
-    // .then(json => {
-    //     dispatch({ 
-    //         type: "GET_POKEMONS", 
-    //         payload: json                    
-    //     });
-    // })
-}
+//     }).then(()=>{return "Pokemon created succesfully"})
+//     .catch((error)=>{throw new Error(error)})    
+// }

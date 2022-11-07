@@ -16,7 +16,7 @@ export default function Details() {
 
     useEffect(() => {
         dispatch(getPokemonDetail(id))
-    }, [])
+    }, [dispatch, id])
     
     return (
         <div className='container'>
@@ -48,7 +48,7 @@ export default function Details() {
                             </ul>
                         </div>
                         <div>
-                            <img className='detail-img' src={pokemon.image}/>
+                            <img className='detail-img' src={pokemon.image} alt=''/>
                         </div>
                     </div>        
                 </div>
