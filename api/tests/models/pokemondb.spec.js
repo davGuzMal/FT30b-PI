@@ -15,7 +15,7 @@ describe('Pokemon model', () => {
           .catch(() => done());
       });
       it('should work when its a valid name', () => {
-        Pokemon.create({ name: 'Pikachu' });
+        Pokemon.create({ id : Math.floor(Math.random()), name: 'Pikachu' });
       });
     });
   });
