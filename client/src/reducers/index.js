@@ -3,7 +3,8 @@ const initialState = {
     pokemonTypes: [],
     pokemonsLoaded: [],
     pokemonsSorted: [],
-    pokemonDetail: {},    
+    pokemonDetail: {},
+    formErrors: {},
     loading: false
 };
 
@@ -97,7 +98,12 @@ function rootReducer (state = initialState, action){
                 return {
             ...state,
             pokemonTypes : action.payload
-        };    
+        };
+        case "ADD_ERRORS":
+                return {
+            ...state,
+            formErrors : action.payload
+        };  
         case "GET_DETAIL_POKEMON":
 
             return {

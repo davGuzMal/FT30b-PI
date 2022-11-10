@@ -54,3 +54,11 @@ p.danger {
   border-radius: 8px;
   width: 95px;
 }
+.create-container button:hover{
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-style: italic;
+  color: rgb(171, 185, 176);
+  background-color: rgb(15, 92, 41);
+  border-radius: 8px;
+  width: 95px;
+}

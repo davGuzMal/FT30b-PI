@@ -1,5 +1,3 @@
-
-//filter="alphabetical", order="descendant"
 export const getPokemons = ()=> async (dispatch) => {
     
     
@@ -22,6 +20,8 @@ export const getPokemons = ()=> async (dispatch) => {
     })
     
 };
+
+//FILTER ACTIONS
 export const filter1=(order)=>(dispatch)=> {
     if(order === "nameAscendant"){
         dispatch({ 
@@ -76,7 +76,7 @@ export const filter3=(filter)=>(dispatch)=> {
     });
     
 }
-
+//SEARCH POKEMON ACTION
 export function searchPokemonDetail(name){
     return function (dispatch){
         return fetch("http://localhost:3001/pokemons/?name=" + name)
@@ -86,35 +86,19 @@ export function searchPokemonDetail(name){
     });
     }
 }
-
-export const getPokemonDetail=(id)=>(dispatch)=>{
-    //dispatch({type: "REQUEST_GET_POKEMONS"});
+//POKEMON DETAIL ACTION
+export const getPokemonDetail=(id)=>(dispatch)=>{    
     fetch("http://localhost:3001/pokemons/" + id)
     .then(response => response.json())
     .then(json => {
         dispatch({ type: "GET_DETAIL_POKEMON", payload: json });
         });
-    }
+}
 
-// export const createPokemon=(input)=>(dispatch)=>{
-//     fetch("http://localhost:3001/pokemons/create",{
-//         method: "POST",        
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({
-//             id: parseInt(input.id),
-//             name: input.name,
-//             hp: parseInt(input.hp),
-//             attack: parseInt(input.attack),
-//             defense: parseInt(input.defense),
-//             speed: parseInt(input.speed),
-//             height : parseInt(input.height),
-//             weight: parseInt(input.weight),
-//             type: [input.type1, input.type2],
-//             image : ""
-//         })
+export const addErrors =(errors)=>(dispatch)=>{
+    dispatch({ 
+        type: "ADD_ERRORS",                
+        payload : errors
+    });
 
-//     }).then(()=>{return "Pokemon created succesfully"})
-//     .catch((error)=>{throw new Error(error)})    
-// }
+}

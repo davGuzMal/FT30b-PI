@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react';
-import { getPokemons} from '../../actions/index';
+import { getPokemons, addErrors} from '../../actions/index';
 import {useHistory} from 'react-router-dom';
 import axios from 'axios';
 import './Form.css'
@@ -42,7 +42,7 @@ export function validate(input) {
         errors.weight = 'Weight must be an integer number';
     }
     if (!input.type1 && !input.type2) {
-      errors.type1 = 'At least 1 type is required';
+        errors.type1 = 'At least 1 type is required';
     }
     else if (input.type1 === input.type2) {
         errors.type2 = 'Types cant be equal';
@@ -56,8 +56,9 @@ export default function Form() {
     let result = ""
     let redirect = useHistory()
     let types = useSelector(state => state.pokemonTypes)
+    let errors = useSelector(state => state.formErrors)
     let dispatch = useDispatch()
-    const [errors, setErrors] = useState({});
+    //const [errors, setErrors] = useState({});
     //const [output, setOutput] = useState("")
     const [input, setInput] = useState({
         id: '',
@@ -78,10 +79,15 @@ export default function Form() {
           ...input,
           [e.target.name]: e.target.value
         });
-        setErrors(validate({
-          ...input,
-          [e.target.name]: e.target.value
-        }));
+        // setErrors(validate({
+        //   ...input,
+        //   [e.target.name]: e.target.value
+        // }));
+        let actualErrors= validate({
+            ...input,
+            [e.target.name]: e.target.value
+          })
+        if(actualErrors) dispatch(addErrors(actualErrors))  
       }
     const handleSubmit = function(e){
         e.preventDefault();
@@ -116,14 +122,7 @@ export default function Form() {
             }
             
         })
-        .catch(error=>{throw new Error(error)})
-        // fetch("http://localhost:3001/pokemons/create",{
-        // method: "POST",        
-        // headers: {
-        //     'Content-Type': 'application/json',
-        // },
-        // body: JSON.stringify(data)
-        //})
+        .catch(error=>{throw new Error(error)})       
         
     }
     useEffect(()=>{
@@ -215,7 +214,7 @@ export default function Form() {
             <p className="danger">{errors.type2}</p>
             )}
             </div>
-            <button type="submit">CREATE</button>
+            <button type="submit" disabled={(errors.id || errors.name || errors.type1 || errors.type2) && true}>CREATE</button>
         </form>
         
         
